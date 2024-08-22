@@ -57,14 +57,14 @@ class HomeActivity extends StatelessWidget {
                           height: 800,
                           child: Column(
                             children: [
-                              const Padding(
+                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
                                 child: Text('Behold! A Bottom Sheet!',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 17), ),
                               ),
-                              const Divider(indent: 15, endIndent: 15,),
-                              const Padding(
+                               Divider(indent: 15, endIndent: 15,),
+                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                                 child: Column(
                                   children: [
@@ -83,7 +83,7 @@ class HomeActivity extends StatelessWidget {
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.lightGreen, foregroundColor: Colors.white
                                       ),
-                                        child: const Text('Close')),
+                                        child: Text('Close')),
                                   ), )
                             ],
                           ),
@@ -92,7 +92,41 @@ class HomeActivity extends StatelessWidget {
                     ),
                   );
                 });
-              }, child: Text('Show Bottom Sheet'), style: buttonStyle,)
+              }, style: buttonStyle, child:  Text('Show Bottom Sheet'),),
+              ElevatedButton.icon(
+                  onPressed: (){
+                    showAboutDialog(context: context,
+                        applicationName: 'Sample App',
+                        applicationVersion: '2.0.3',
+                        children: [
+                          Column( children: [Text('data')],
+                        )]);
+                  },
+                  label: const Text('About'),
+                  style: buttonStyle,
+                  icon: const Icon(Icons.info_rounded)),
+              ElevatedButton(onPressed: (){
+               showDialog(context: context, builder: (ctx){
+                 return AlertDialog(
+                   title:  Text('Custom Alert Dialog'),
+                   content:  SizedBox(
+                     //height: double.minPositive,
+                     child: Text('Are you sure you gonna kill all the bugs with Nukes?'),
+                   ),
+                   actions: [
+                     Center(
+                         child: ElevatedButton(
+                             onPressed: (){
+                               Navigator.pop(context);
+                             }, child: Text('Confirm Killing 🐛'), style: buttonStyle,)),
+                     // TextButton(onPressed: (){}, child: Text('Pardon', style: TextStyle(color: Colors.lightGreen),)),
+                     // TextButton(onPressed: (){}, child: Text('No Mercy', style: TextStyle(color: Colors.red),))
+                   ],
+                 );
+               });
+              }, child: Text('Show Alert Dialog'),
+                style: buttonStyle,),
+
             ],
           ),
         ));
