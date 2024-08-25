@@ -1,307 +1,134 @@
 import 'package:flutter/material.dart';
 
 main() {
-  runApp( AthariFeed());
+  runApp(TextFieldApp());
 }
 
-class AthariFeed extends StatelessWidget {
-   AthariFeed({super.key});
-
+class TextFieldApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.indigo),
-        darkTheme: ThemeData(primarySwatch: Colors.blueGrey),
-        color: Colors.black87,
-        debugShowCheckedModeBanner: false,
-        home: HomeActivity());
+      home: Home(),
+    );
   }
 }
 
-class HomeActivity extends StatelessWidget {
-   HomeActivity({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
-  final myFavSheikhsList= [
-    {'img':'https://islamicaudios.net/wp-content/uploads/2022/11/Shaykh-Abu-Zaid-Zameer-Pune-IslamicLecturersNet-Latest-Audio-Video-Bayan-1.jpg', 'title':'Abu Zaid Zameer'},
-    {'img':'https://i.ytimg.com/vi/x3HRysNcsgE/maxresdefault.jpg', 'title':'Sheikh Abu Bakar Zakara'},
-    {'img':'https://th.bing.com/th/id/OIP.KTL_oO_rTyetiNIr4fhwwwHaEK?rs=1&pid=ImgDetMain', 'title':'Sheikh Motiur Rahman Madani'},
-    {'img':'https://i.ytimg.com/vi/8mG45C2zckI/maxresdefault.jpg', 'title':'Sheikh Abdur Razzaq al Badr'},
-    {'img':'https://i.ytimg.com/vi/wJTQ-S-8pW0/maxresdefault.jpg', 'title':'sheikh saleh al-fawzan'},
-    // {'img':'', 'title':''},
-    // {'img':'', 'title':''},
-    // {'img':'', 'title':''},
-  ];
+  @override
+  State<Home> createState() => _HomeState();
+}
 
-  // List<String> friendList= ['Bokor', 'Ali', 'Jihad', 'Jawad', 'Mahabub'];
-  snackBar(message, context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
+class _HomeState extends State<Home> {
 
-// CustomAlertDialog(context){
-//     return showDialog(context: context, builder: (BuildContext context){
-//       return Expanded(child: AlertDialog(
-//         title: Text('Red Alert!'),
-//         content: Text('Do yo want a cake?'),
-//         actions: [
-//           TextButton(onPressed: (){
-//             snackBar('Order Placed on your dream!', context);
-//             Navigator.of(context).pop();
-//             }, child: Text('Yes')),
-//           TextButton(onPressed: (){Navigator.of(context).pop();}, child: Text('No, I got Diabetes')),
-//
-//         ],
-//       ));
-//     });
-// }
-
-  //
+  TextEditingController _passTextEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
-    ButtonStyle buttonStyle=ElevatedButton.styleFrom(
-      minimumSize: Size(double.infinity, 50),
-      backgroundColor: Colors.lightGreen,
-      foregroundColor: Colors.white,
-    );
     return Scaffold(
+      backgroundColor: Colors.blue[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
-        title: const Text('Athari Feed'),
-        toolbarHeight: 60,
-        // usually 60 is the default value
-        toolbarOpacity: 1,
-        // only values between 0 & 1
-        elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () {
-                snackBar('Search for Lectures and Books', context);
-              },
-              icon: Icon(Icons.search)),
-          IconButton(
-              onPressed: () {
-                snackBar('Settings', context);
-              },
-              icon: Icon(Icons.settings)),
-          IconButton(
-              onPressed: () {
-                snackBar('Account', context);
-              },
-              icon: Icon(Icons.account_circle))
-        ],
+        title: const Text(
+          'Text Field App',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: Colors.blue[400],
+        foregroundColor: Colors.white,
       ),
-      // the commented section below is what I was putting effort into...
-
-      // module-8, class 2
-      //   body: ListView.builder(
-      //       itemCount: friendList.length,
-      //       itemBuilder: (context, index){
-      //             return Text(friendList[index]);
-      // }),
-      // body: SingleChildScrollView(
-      //   //scrollDirection: Axis.horizontal,
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //     children: [
-      //       // Column(),
-      //       SingleChildScrollView(
-      //         scrollDirection: Axis.horizontal,
-      //         child: Row(
-      //           children: [
-      //             Container(
-      //               height: 120,
-      //               width: 120,
-      //               alignment: Alignment.bottomRight,
-      //               margin: EdgeInsets.fromLTRB(7, 7, 2, 5),
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(10),
-      //                 color: Colors.lightBlueAccent,
-      //                 // border: Border.all(color: Colors.greenAccent, width: 6)
-      //               ),
-      //               // child: Center(
-      //               //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //               //         style: TextStyle(fontSize: 20))),
-      //             ),
-      //             Container(
-      //               height: 120,
-      //               width: 120,
-      //               alignment: Alignment.bottomRight,
-      //               margin: EdgeInsets.fromLTRB(7, 7, 2, 5),
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(10),
-      //                 color: Colors.deepPurpleAccent,
-      //                 // border: Border.all(color: Colors.greenAccent, width: 6)
-      //               ),
-      //               // child: Center(
-      //               //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //               //         style: TextStyle(fontSize: 20))),
-      //             ),
-      //             Container(
-      //               height: 120,
-      //               width: 120,
-      //               alignment: Alignment.bottomRight,
-      //               margin: EdgeInsets.fromLTRB(7, 7, 2, 5),
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(10),
-      //                 color: Colors.teal,
-      //                 // border: Border.all(color: Colors.greenAccent, width: 6)
-      //               ),
-      //               // child: Center(
-      //               //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //               //         style: TextStyle(fontSize: 20))),
-      //             ),
-      //             Container(
-      //               height: 120,
-      //               width: 120,
-      //               alignment: Alignment.bottomRight,
-      //               margin: EdgeInsets.fromLTRB(7, 7, 2, 5),
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(10),
-      //                 color: Colors.black26,
-      //                 // border: Border.all(color: Colors.greenAccent, width: 6)
-      //               ),
-      //               // child: Center(
-      //               //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //               //         style: TextStyle(fontSize: 20))),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //       Container(
-      //         height: 120,
-      //         width: 120,
-      //         alignment: Alignment.bottomRight,
-      //         margin: EdgeInsets.fromLTRB(7, 7, 2, 5),
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(10),
-      //           color: Colors.green,
-      //           // border: Border.all(color: Colors.greenAccent, width: 6)
-      //         ),
-      //         // child: Center(
-      //         //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //         //         style: TextStyle(fontSize: 20))),
-      //       ),
-      //       Container(
-      //         height: 120,
-      //         width: 120,
-      //         alignment: Alignment.bottomRight,
-      //         margin: EdgeInsets.fromLTRB(5, 7, 2, 5),
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(10),
-      //           color: Colors.teal,
-      //           // border: Border.all(color: Colors.greenAccent, width: 6)
-      //         ),
-      //         // child: Center(
-      //         //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //         //         style: TextStyle(fontSize: 20))),
-      //       ),
-      //       Container(
-      //         height: 120,
-      //         width: 120,
-      //         alignment: Alignment.bottomRight,
-      //         margin: EdgeInsets.fromLTRB(5, 7, 2, 5),
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(10),
-      //           color: Colors.blueGrey,
-      //           // border: Border.all(color: Colors.greenAccent, width: 6)
-      //         ),
-      //         // child: Center(
-      //         //     child: Text('Ahlan wa Sahlan ya Salfiyyun!',
-      //         //         style: TextStyle(fontSize: 20))),
-      //       ),
-      //       Container(
-      //         height: 120,
-      //         width: 120,
-      //         alignment: Alignment.bottomRight,
-      //         margin: EdgeInsets.fromLTRB(5, 7, 2, 5),
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(10),
-      //           color: Colors.redAccent,
-      //           // border: Border.all(color: Colors.greenAccent, width: 6)
-      //         ),
-      //       ),
-      //       Column(
-      //         children: [Text('Pretty confused')],
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      body: ListView.builder(
-          itemCount: myFavSheikhsList.length,
-          itemBuilder: (context, index){
-        return GestureDetector(
-          onTap: (){snackBar(myFavSheikhsList[index]['title'], context);},
-          child: Container(
-            margin: EdgeInsets.all(10),
-            width: double.infinity, // we took the full width with this
-            height: 200,
-            child: Image.network(myFavSheikhsList[index]['img']!, fit: BoxFit.fill,),
-
-
-          ),
-        );
-      }),
-
-
-      floatingActionButton: FloatingActionButton(
-        elevation: 10,
-        child: Icon(Icons.headphones),
-        backgroundColor: Colors.lightGreen,
-        onPressed: () {
-          snackBar('listening', context);
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          //backgroundColor: Colors,
-          currentIndex: 0,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.people_alt_outlined), label: 'Scholars'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.video_collection_outlined), label: 'Lectures'),
-          ],
-          onTap: (int index) {
-            if (index == 0) {
-              snackBar('Home', context);
-            }
-            if (index == 1) {
-              snackBar('Search for Scholars', context);
-            }
-            if (index == 2) {
-              snackBar('All avialabe Lectures', context);
-            }
-          }),
-      drawer: Drawer(
-        child: ListView(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
           children: [
-            DrawerHeader(
-                padding: EdgeInsets.all(0),
-                child: UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: Colors.lightGreen),
-                  // if we don't use this, color will automatically set to the app theme color
-                  accountName: Text('Redwan Ahmed Fahim'),
-                  accountEmail: Text('redsinfo@gmail.com',
-                      style: TextStyle(color: Colors.blueGrey)),
-                  currentAccountPicture: Image.network(
-                      'https://iconape.com/wp-content/files/yb/61798/png/flutter-logo.png'),
-                )),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                snackBar('Settings', context);
-              },
+            TextField(
+              enabled: true,
+              cursorColor: Colors.blue,
+              decoration: InputDecoration(
+                hintText: 'Search the bug out!',
+                hintStyle: const TextStyle(color: Colors.black12),
+                icon: Icon(Icons.add),
+                prefixIcon: Icon(Icons.search),
+                suffixIcon: TextButton(onPressed: (){}, child: Text('Search', style: TextStyle(color: Colors.blue),)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                    // BorderSide.none leaves totally no borders
+                    color: Colors.blue.shade200, width: 2
+                  ), // BorderSide.none leaves totally no borders
+                ),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide:
+                        BorderSide(color: Colors.blue.shade200, width: 2)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide:
+                    BorderSide(color: Colors.blue, width: 2)
+                )
+              ),
             ),
-            ListTile(
-                leading: Icon(Icons.info),
-                title: Text('Get to Know About Salafiyyah')),
-            ListTile(
-                leading: Icon(Icons.emoji_people), title: Text('About Us')),
-            ListTile(
-                leading: Icon(Icons.verified_sharp), title: Text('Version'))
+            SizedBox(height: 16,),
+            TextField(
+              maxLength: 200,
+              maxLines: 5,
+              enabled: true,
+              cursorColor: Colors.blue,
+              decoration: InputDecoration(
+                  labelText: 'Description',
+                  alignLabelWithHint: true,
+                  labelStyle: TextStyle(color: Colors.blue),
+                  // label: Text('Description', style: TextStyle(color: Colors.blue)), // this property here lacks some abilities...
+                  hintText: 'Describe the Planet you are from',
+                  hintStyle: const TextStyle(color: Colors.black12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      // BorderSide.none leaves totally no borders
+                        color: Colors.blue.shade200, width: 2
+                    ), // BorderSide.none leaves totally no borders
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                      BorderSide(color: Colors.blue.shade200, width: 2)),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                      BorderSide(color: Colors.blue, width: 2)
+                  )
+              ),
+            ),
+            SizedBox(height: 16,),
+            TextField(
+              controller: _passTextEditingController,
+              obscureText: true,
+              enabled: true,
+              cursorColor: Colors.blue,
+              decoration: InputDecoration(
+                  label: Text('Password', style: TextStyle(color: Colors.blue),),
+                  hintText: 'Not gonna steal your pass, I promise',
+                  hintStyle: const TextStyle(color: Colors.black12),
+                  prefixIcon: Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      // BorderSide.none leaves totally no borders
+                        color: Colors.blue.shade200, width: 2
+                    ), // BorderSide.none leaves totally no borders
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                      BorderSide(color: Colors.blue.shade200, width: 2)),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                      BorderSide(color: Colors.blue, width: 2)
+                  )
+              ),
+            ),
+            TextButton(onPressed: (){
+              _passTextEditingController.clear();
+            }, child: Text('Clear Password', style: TextStyle(color: Colors.blue),))
           ],
         ),
       ),
