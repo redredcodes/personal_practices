@@ -12,6 +12,7 @@ class TextFieldApp extends StatelessWidget {
     return MaterialApp(
       home: const Home(),
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blue[200],
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData( // when we navigate to a different page, a back button is automatically created.
             // how do i change the color of that button? Using this over here...
@@ -41,7 +42,7 @@ class TextFieldApp extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                 // BorderSide.none leaves totally no borders
-                  color: Colors.blue.shade200, width: 2
+                  color: Colors.white, width: 2
               ), // BorderSide.none leaves totally no borders
             ),
             disabledBorder: OutlineInputBorder(
@@ -59,6 +60,7 @@ class TextFieldApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
+        scaffoldBackgroundColor: Colors.blue[1000],
         brightness: Brightness.dark,
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData( // when we navigate to a different page, a back button is automatically created.
@@ -106,7 +108,7 @@ class TextFieldApp extends StatelessWidget {
           hintStyle: const TextStyle(color: Colors.black12),
         ),
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
     );
   }
 }
@@ -125,7 +127,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: const Text(
           'Text Field App',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
@@ -144,7 +145,10 @@ class _HomeState extends State<Home> {
                   hintStyle: const TextStyle(color: Colors.black12),
                   icon: const Icon(Icons.add),
                   prefixIcon: const Icon(Icons.search),
-                  suffixIcon: TextButton(onPressed: (){}, child: const Text('Search', style: TextStyle(color: Colors.blue),)),
+                  suffixIcon: TextButton(
+                      onPressed: (){}, child: const Text('Search', style: TextStyle(color: Colors.blue),
+                   ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16,),
