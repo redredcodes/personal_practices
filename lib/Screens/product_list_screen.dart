@@ -17,6 +17,8 @@ class ProductListScreen extends StatefulWidget {
 class _ProductListScreenState extends State<ProductListScreen> {
   List<Product> productList = [];
 
+  bool _inProgress = false;
+
   // we want to call the getProductList() method the moment we open this page
   // which life cycle method is called at first?->initState
   // so let's do it...
@@ -37,12 +39,24 @@ class _ProductListScreenState extends State<ProductListScreen> {
           'Product List',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          // refresh button
+          IconButton(
+              onPressed: (){
+                getProductList();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
       ),
-      body: Padding(
+      body: _inProgress ? const Center(
+        child: CircularProgressIndicator(),
+      ) : Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView.separated(
             itemBuilder: (context, index) {
-              return ProductItem();
+              return ProductItem(
+                product: productList[index],
+              );
             },
             separatorBuilder: (context, index) {
               return const SizedBox(
@@ -63,6 +77,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   // Calling the API-> bring the url at first to call the api
   Future<void> getProductList() async {
+    _inProgress = true;
+    setState(() {});
     Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/ReadProduct');
     Response response = await get(uri);
     print(response);
@@ -73,19 +89,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
     // And it's sent like this, encoded. When we will be sending any data, it will be encoded also
     // so let's decode it at first! json decode
     if (response.statusCode == 200) {
+      productList.clear();
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
       for (var item in jsonResponse['data']) {
         Product product = Product(id: item['_id'],
-          productName: item['ProductName'],
-          productCode: item['ProductCode'],
-          productImage: item['Img'],
-          unitPrice: item['UnitPrice'],
-          quantity: item['Qty'],
-          totalPrice: item['TotalPrice'],
-          createdAt: item['CreatedDate'],);
+          productName: item['ProductName'] ?? '',
+          productCode: item['ProductCode'] ?? '',
+          productImage: item['Img'] ?? '',
+          unitPrice: item['UnitPrice'] ?? '',
+          quantity: item['Qty'] ?? '',
+          totalPrice: item['TotalPrice'] ?? '',
+          createdAt: item['CreatedDate'] ?? '',);
         productList.add(product);
       }
     }
+    _inProgress = false;
     setState(() {});
   }
 }

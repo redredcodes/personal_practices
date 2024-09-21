@@ -1,45 +1,47 @@
-
 import 'package:fiixplz/Screens/update_product_screen.dart';
+import 'package:fiixplz/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({
-    super.key,
+    super.key, required this.product,
   });
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       tileColor: Colors.purple[100],
-      title: Text('Product Name'),
-      subtitle: Column( crossAxisAlignment: CrossAxisAlignment.start,
+      title: Text(product.productName),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Prdouct Code: CODE'),
-          Text('Price: \$120'),
-          Text('Prdouct Quantity: 2'),
-          Text('Total Price: \$240'),
+          Text('Prdouct Code: ${product.productCode}'),
+          Text('Price: \$${product.unitPrice}'),
+          Text('Prdouct Quantity: ${product.quantity}'),
+          Text('Total Price: \$${product.totalPrice}'),
           const Divider(),
           ButtonBar(
             children: [
-              TextButton.icon(
+              TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>UpdateProductScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UpdateProductScreen()));
                 },
-                label: Text('Edit'),
-                icon: Icon(Icons.edit),
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                label: Text(
-                  'Delete',
-                  style: TextStyle(color: Colors.red),
+                child: Text(
+                  'Edit',
+                  style: TextStyle(color: Colors.blue),
                 ),
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.redAccent[700]),
                 ),
               ),
             ],

@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import '../models/product.dart';
 
 class UpdateProductScreen extends StatefulWidget {
   const UpdateProductScreen({super.key});
@@ -16,10 +19,16 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   final TextEditingController _productImageTE = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool _inProgress = false;
+
+  Product product =
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.purple[200],
       appBar: AppBar(
+        backgroundColor: Colors.purple[200],
         centerTitle: true,
         title: Text('Update Product', style: TextStyle(fontWeight: FontWeight.bold),),
       ),
@@ -37,6 +46,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       child: Column(
         children: [
           TextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid value';
+              }
+              return null;
+            },
             controller: _productNameTE,
             decoration: InputDecoration(
               hintText: 'Enter Product Name',
@@ -44,6 +59,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             ),
           ),
           TextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid value';
+              }
+              return null;
+            },
             controller: _unitPriceTE,
             decoration: InputDecoration(
               hintText: 'Unit Price',
@@ -51,6 +72,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             ),
           ),
           TextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid value';
+              }
+              return null;
+            },
             controller: _totalPriceTE,
             decoration: InputDecoration(
               hintText: 'Total Price',
@@ -58,6 +85,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             ),
           ),
           TextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid value';
+              }
+              return null;
+            },
             controller: _productCodeTE,
             decoration: InputDecoration(
               hintText: 'Product Code',
@@ -65,6 +98,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             ),
           ),
           TextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid value';
+              }
+              return null;
+            },
             controller: _productQuantityTE,
             decoration: InputDecoration(
               hintText: 'Product Quantity',
@@ -72,6 +111,12 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             ),
           ),
           TextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid value';
+              }
+              return null;
+            },
             controller: _productImageTE,
             decoration: InputDecoration(
               hintText: 'Image',
@@ -81,8 +126,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
           SizedBox(
             height: 16,
           ),
-          ElevatedButton(
-            onPressed: _onTapAddProductButton,
+          _inProgress ? Center(
+            child: CircularProgressIndicator(),
+          ) : ElevatedButton(
+            onPressed: _onTapUpdateProductButton,
             child: Text('Update'),
             style: ElevatedButton.styleFrom(
                 fixedSize: Size.fromWidth(double.maxFinite)),
@@ -93,7 +140,51 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   }
 
   // add button function
-  void _onTapAddProductButton() {}
+  void _onTapUpdateProductButton() {
+    if (_formKey.currentState!.validate()) {
+      updateExistingProduct();
+    }
+  }
+
+
+  Future<void> updateExistingProduct() async {
+    _inProgress = true;
+    setState(() {});
+    Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/UpdateProduct/${product}');
+    Map<String, dynamic> requestBody = {
+      "Img": _productImageTE.text,
+      "ProductCode": _productCodeTE.text,
+      "ProductName": _productNameTE.text,
+      "Qty": _productQuantityTE.text,
+      "TotalPrice": _totalPriceTE.text,
+      "UnitPrice": _unitPriceTE.text,
+    };
+    Response response = await post(uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody));
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      _clearTextFields();
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Product Updated'),
+        ),
+      );
+    }
+    _inProgress = false;
+    setState(() {});
+  }
+
+  void _clearTextFields() {
+    _productNameTE.clear();
+    _unitPriceTE.clear();
+    _totalPriceTE.clear();
+    _productCodeTE.clear();
+    _productQuantityTE.clear();
+    _productImageTE.clear();
+  }
 
   @override
   void dispose() {
