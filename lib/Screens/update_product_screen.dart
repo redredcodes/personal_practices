@@ -4,24 +4,39 @@ import 'package:http/http.dart';
 import '../models/product.dart';
 
 class UpdateProductScreen extends StatefulWidget {
-  const UpdateProductScreen({super.key});
+  const UpdateProductScreen({super.key, required this.product});
+
+  final Product product;
 
   @override
   State<UpdateProductScreen> createState() => _UpdateProductScreenState();
 }
 
 class _UpdateProductScreenState extends State<UpdateProductScreen> {
-  final TextEditingController _productNameTE = TextEditingController();
-  final TextEditingController _unitPriceTE = TextEditingController();
-  final TextEditingController _totalPriceTE = TextEditingController();
-  final TextEditingController _productCodeTE = TextEditingController();
-  final TextEditingController _productQuantityTE = TextEditingController();
-  final TextEditingController _productImageTE = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  late TextEditingController _productNameTE = TextEditingController();
+  late TextEditingController _unitPriceTE = TextEditingController();
+  late TextEditingController _totalPriceTE = TextEditingController();
+  late TextEditingController _productCodeTE = TextEditingController();
+  late TextEditingController _productQuantityTE = TextEditingController();
+  late TextEditingController _productImageTE = TextEditingController();
+  late GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late Product product;
   bool _inProgress = false;
 
-  Product product =
+  @override
+  void initState() {
+    product = widget.product;
+    _productNameTE = TextEditingController(text: product.productName);
+     _unitPriceTE = TextEditingController(text: product.unitPrice);
+     _totalPriceTE = TextEditingController(text: product.totalPrice);
+  _productCodeTE = TextEditingController(text: product.productCode);
+    _productQuantityTE = TextEditingController(text: product.quantity);
+    _productImageTE = TextEditingController(text: product.productImage);
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +165,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   Future<void> updateExistingProduct() async {
     _inProgress = true;
     setState(() {});
-    Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/UpdateProduct/${product}');
+    Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/UpdateProduct/${product.id}');
     Map<String, dynamic> requestBody = {
       "Img": _productImageTE.text,
       "ProductCode": _productCodeTE.text,

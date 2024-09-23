@@ -50,13 +50,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
       body: _inProgress ? const Center(
         child: CircularProgressIndicator(),
-      ) : Padding(
+      ) :
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView.separated(
             itemBuilder: (context, index) {
               return ProductItem(
-                product: productList[index],
-              );
+                product: productList[index], onTapDelete: ()=> deleteItem(productList[index].id, context));
             },
             separatorBuilder: (context, index) {
               return const SizedBox(
@@ -105,6 +105,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
     _inProgress = false;
     setState(() {});
+  }
+  
+  Future<void> deleteItem(String productId, context) async {
+    Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/DeleteProduct/$productId');
+    Response response = await get(uri);
+    if (response.statusCode == 200) {
+      getProductList();
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item Deleted')));
+    }
+
   }
 }
 
